@@ -15,6 +15,7 @@ public:
 	bool hasConnection(int i1, int j1, int i2, int j2);
 	bool makeConnection(int i1, int j1, int i2, int j2);
 	bool removeConnection(int i1, int j1, int i2, int j2);
+	bool inBorders(int i1, int j1);
 	void printMaze();
 	char printDir(int i, int j);
 	MCell* getCell(int i, int j);

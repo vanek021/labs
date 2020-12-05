@@ -30,7 +30,7 @@ bool Maze::hasConnection(int i1, int j1, int i2, int j2) {
 }
 
 bool Maze::makeConnection(int i1, int j1, int i2, int j2) {
-	if (i1 < 0 || j1 < 0 || j1 >= dimM || i1 >= dimN || i2 < 0 || j2 < 0 || j2 >= dimM || i2 >= dimN)
+	if (!inBorders(i1, j1) || !inBorders(i2, j2))
 		return false;
 	if (j1 == j2 && abs(i2 - i1) == 1) {
 		if (i2 - i1 == 1)
@@ -50,7 +50,7 @@ bool Maze::makeConnection(int i1, int j1, int i2, int j2) {
 }
 
 bool Maze::removeConnection(int i1, int j1, int i2, int j2) {
-	if (i1 < 0 || j1 < 0 || j1 >= dimM || i1 >= dimN || i2 < 0 || j2 < 0 || j2 >= dimM || i2 >= dimN)
+	if (!inBorders(i1, j1) || !inBorders(i2, j2))
 		return false;
 	if (!hasConnection(i1, j1, i2, j2))
 		return false;
@@ -59,6 +59,10 @@ bool Maze::removeConnection(int i1, int j1, int i2, int j2) {
 		m_field[i1 * dimN + j1].m_right = false;
 		return true;
 	}
+}
+
+bool Maze::inBorders(int i1, int j1) {
+	return j1 >= 0 && j1 < dimN && i1 >= 0 && i1 < dimM;
 }
 
 void Maze::printMaze() {
