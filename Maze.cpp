@@ -68,7 +68,57 @@ bool Maze::inBorders(int i1, int j1) {
 void Maze::printMaze() {
 	for (int i = 0; i < dimN; i++) {
 		for (int j = 0; j < dimM; j++) {
-			cout << printDir(i, j);
+			auto top = getCell(i - 1, j);
+			auto left = getCell(i, j - 1);
+			if (top == nullptr && left == nullptr) {
+				if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right()) {
+					cout << '0';
+					continue;
+				}
+			}
+			if (top != nullptr && left != nullptr && top->down() && left->right()) {
+				if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right()) {
+					cout << (char)197;
+					continue;
+				}
+				if (m_field[i * dimN + j].right()) {
+					cout << (char)193;
+					continue;
+				}
+				if (m_field[i * dimN + j].down()) {
+					cout << (char)180;
+					continue;
+				}
+			}
+			if (top != nullptr && top->down()) {
+				if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right()) {
+					cout << (char)195;
+					continue;
+				}
+				if (m_field[i * dimN + j].right()) {
+					cout << (char)192;
+					continue;
+				}
+				if (m_field[i * dimN + j].down()) {
+					cout << (char)179;
+					continue;
+				}
+			}
+			if (left != nullptr && left->right()) {
+				if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right()) {
+					cout << (char)194;
+					continue;
+				}
+				if (m_field[i * dimN + j].right()) {
+					cout << (char)196;
+					continue;
+				}
+				if (m_field[i * dimN + j].down()) {
+					cout << (char)191;
+					continue;
+				}
+			}
+			cout << '0';
 		}
 		cout << endl;
 	}
@@ -82,38 +132,4 @@ MCell* Maze::getCell(int i, int j) {
 	if (i < 0 || j < 0 || j >= dimM || i >= dimN)
 		return nullptr;
 	else return &m_field[i * dimN + j];
-}
-
-char Maze::printDir(int i, int j) {
-	auto top = getCell(i - 1, j);
-	auto left = getCell(i, j - 1);
-	if (top == nullptr && left == nullptr) {
-		if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right())
-			return '0';
-	}
-	if (top != nullptr && left != nullptr && top->down() && left->right()) {
-		if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right())
-			return (char)197;
-		if (m_field[i * dimN + j].right())
-			return (char)193;
-		if (m_field[i * dimN + j].down())
-			return(char)180;
-	}
-	if (top != nullptr && top->down()) {
-		if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right())
-			return (char)195;
-		if (m_field[i * dimN + j].right())
-			return (char)192;
-		if (m_field[i * dimN + j].down())
-			return(char)179;
-	}
-	if (left != nullptr && left->right()) {
-		if (m_field[i * dimN + j].down() && m_field[i * dimN + j].right())
-			return (char)194;
-		if (m_field[i * dimN + j].right())
-			return (char)196;
-		if (m_field[i * dimN + j].down())
-			return(char)191;
-	}
-	return '0';
 }
