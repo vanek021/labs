@@ -6,29 +6,19 @@
 using namespace std;
 
 int maxWeight(const MTreeNode* tree);
+void printIntSymbol(MTreeNode* node, int distance);
+void printCharSymbol(MTreeNode* node, char symbol);
 
 void printTree(MTreeNode* node, Maze& maze) {
-	if (maxWeight(node) >= 100)
-		cout << node->distance() << " ";
-	else cout << node->distance() << "  ";
+	printIntSymbol(node, node->distance());
 	for (int i = 0; i < maze.dimN; i++) {
 		for (int j = 0; j < maze.dimM; j++) {
-			if (i == 0 && j == 0)
-				continue;
+			if (i == 0 && j == 0) continue;
 			auto thisChild = node->hasChild(i, j);
 			if (thisChild == nullptr)
-				if (maxWeight(node) >= 100)
-					cout << 'X' << " ";
-				else
-					cout << 'X' << "  ";
+				printCharSymbol(node, 'X');
 			else
-				if (maxWeight(node) >= 100)
-					cout << thisChild->distance() << " ";
-				else
-					if (thisChild->distance() >= 10)
-						cout << thisChild->distance() << " ";
-					else
-						cout << thisChild->distance() << "  ";
+				printIntSymbol(node, thisChild->distance());
 		}
 		cout << endl;
 	}
@@ -50,7 +40,7 @@ void buildFullMaze(Maze& iMaze, const MTreeNode* tree) {
 	}
 }
 
-void TreeWithoutLoops(MTreeNode* tree, const int width, const int height) {
+void TreeWithoutLoops(MTreeNode* tree, int width, int height) {
 	queue<MTreeNode*> nodes;
 	auto node = tree;
 	nodes.push(node);
@@ -110,10 +100,27 @@ float averageWeight(const MTreeNode* tree) {
 	return sumWeight / float(count);
 }
 
+void printIntSymbol(MTreeNode* node, int distance) {
+	if (maxWeight(node) >= 100)
+		cout << distance << " ";
+	else if (distance >= 10)
+		cout << distance << " ";
+	else cout << distance << "  ";
+}
+
+void printCharSymbol(MTreeNode* node, char symbol) {
+	if (maxWeight(node) >= 100)
+		cout << symbol << " ";
+	else
+		cout << symbol << "  ";
+}
+
 int main()
 {
 	// TASK 10
-	const int dN = 10, dM = 10;
+	int dN, dM;
+	cout << "Enter dimN and dimM: " << endl;
+	cin >> dN >> dM;
 	const int i = rand() % dN, j = rand() % dM;
 	cout << "Random i: " << i << ", Random j: " << j << endl;
 	cout << "Dimension N: " << dN << ", Dimension M: " << dM << endl << endl;
